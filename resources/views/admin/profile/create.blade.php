@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 mx-auto"> 
-                <h2>My　プロフィール</h2>
+                <h2>My プロフィールの作成</h2>
             </div>
         </div>
     </div>
