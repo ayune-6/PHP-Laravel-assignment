@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\News;
+use App\History;
+use Carbon\Carbon;
 
 class NewsController extends Controller
 {
@@ -35,7 +37,7 @@ class NewsController extends Controller
         $news->fill($form);
         $news->save();
         
-        return redirect('admin/news/create');
+        return redirect('admin/news');
     }
     
     public function index(Request $request)
@@ -56,7 +58,7 @@ class NewsController extends Controller
         if (empty($news)) {
             abort(404);
         }
-        return view('admin.news.edit', ['news_form' => $news]);
+        return view('admin.news.edit', ['news_form' => $news]); //viewを見せる際にviewにおけるnews_formのところを$newsにして渡す（編集する前だから前のデータを見せるということ）
     }
     
     public function update(Request $request)
@@ -78,5 +80,20 @@ class NewsController extends Controller
         unset($news_form['remove']);
         
         $news->fill($news_form)->save();
+        
+        $history = new History;
+        $history->news_id = $news->id;
+        $history->edited_at = Carbon::now();
+        $history->save();
+        
+        return redirect('admin/news');
+    }
+    
+    public function delete(Request $request)
+    {
+        
+    $news = News::find($request->id);
+    $news->delete();
+    return redirect('admin/news');
     }
 }
