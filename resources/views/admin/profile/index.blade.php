@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="col-md-4">
-        <a href="{{ action('Admin\ProfileController@edit', ['id' => $profile_form->id]) }}" role="button" class="btn btn-primary">編集</a>
+        <a href="{{ action('Admin\ProfileController@edit', ['id' =>1]) }}" role="button" class="btn btn-primary">編集</a>
     </div>
 </div>
 @endsection
