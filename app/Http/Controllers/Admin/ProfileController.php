@@ -62,7 +62,7 @@ class ProfileController extends Controller
         $history->profile_edited_at = Carbon::now();
         $history->save();
         
-        return redirect('admin/profile/index?id=1'); //redirect...Controllerで特定のページへリダイレクトさせたいときに使用
+        return redirect("admin/profile/index?id=1");
     }
     
 }
