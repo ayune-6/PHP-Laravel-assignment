@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Profile;
 use App\History;
 use Carbon\Carbon;
+use Auth;
 
 class ProfileController extends Controller
 {
@@ -24,14 +25,16 @@ class ProfileController extends Controller
         
         unset($form['_token']);
         
-        $profile->fill($form)->save();
+        $profile->fill($form);
+        $profile['user_id']=Auth::id();
+        $profile->save();
         
         return redirect('admin/profile'); 
     }
     
    public function index(Request $request)
    {
-        $profile = Profile::find($request->id);
+        $profile = Profile::where('user_id', Auth::id())->first();
         if(empty($profile)) {
             abort(404);
         }
@@ -55,14 +58,16 @@ class ProfileController extends Controller
         
         unset($profile_form['_token']);
         
-        $profile->fill($profile_form)->save();
+        $profile->fill($profile_form);
+        $profile['user_id']=Auth::id();
+        $profile->save();
         
         $history = new History;
         $history->profile_id = $profile->id;
         $history->profile_edited_at = Carbon::now();
         $history->save();
         
-        return redirect("admin/profile/index?id=1");
+        return redirect("admin/profile/index");
     }
     
 }
